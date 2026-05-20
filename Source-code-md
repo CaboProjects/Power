@@ -1,0 +1,25 @@
+import os
+import ctypes
+import sys
+
+def is_admin():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except:
+        return False
+
+def launch_bypass_shell():
+    custom_prompt = 'function prompt { "power> " }'
+   
+    cmd = f'powershell.exe -NoExit -ExecutionPolicy Bypass -Command "{custom_prompt}"'
+    
+    print("Bypassing execution policies and launching shell...")
+    os.system(cmd)
+
+if __name__ == "__main__":
+    if is_admin():
+        launch_bypass_shell()
+    else:
+        print("Error: This script must be run as an Administrator.")
+ 
+ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
